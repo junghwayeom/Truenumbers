@@ -1,0 +1,35 @@
+---
+title: "Exploring and Tagging Text"
+author: "Ruxin Liu"
+date: "11/17/2020"
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r}
+# Install the package
+# devtools::install_github("truenumbers/tnum/tnum")
+library(tnum)
+tnum.authorize()
+```
+
+```{r}
+# Explore the text in the Pride and Prejudice
+tax1 <-tnum.getDatabasePhraseList("subject", levels = 3)
+tax1
+```
+
+```{r}
+num1 <- tnum.query("*pride* has count:word")
+num2 <- tnum.query("*pride* has text")
+```
+
+```{r}
+num2 <- tnum.query("*pride* has text = REGEXP(\"love\")") 
+text_df <- tnum.objectsToDf(num2)
+picmoney <- tnum.makePhraseGraphFromPathList(text_df$subject)
+tnum.plotGraph(picmoney)
+```
